@@ -21,10 +21,12 @@ INSERT INTO users(username,password) VALUES
 	('ahmed','1232'),
 	('ali','1237');
 
-INSERT INTO diary(username,text,date) VALUES 
-	('moaz', 'hello world foram moaz','2017-08-20'),
-	('maha', 'hello world from maha','2017-08-19'),
-	('ahmed', 'hello world from ahmed','2017-08-18'),
-	('ali', 'hello world from ali','2017-08-17');
+INSERT INTO diary(username,text,date) VALUES
+	('moaz', 'hey today is 20 Aug','08-20-2017'),
+	('moaz', 'hey today is 19 Aug','08-19-2017'),
+	('moaz', 'hey today is 18 Aug','08-18-2017'),
+	('maha', 'hello world from maha','08-19-2017'),
+	('ahmed', 'hello world from ahmed','08-20-2017'),
+	('ali', 'hello world from ali','08-27-2017');
 
 COMMIT;
