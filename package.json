@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "semistandard"
+    "lint": "semistandard --fix"
   },
   "pre-commit": [
     "lint"
