@@ -1,0 +1,23 @@
+BEGIN;
+
+DROP TABLE IF EXISTS users cascade;
+DROP TABLE IF EXISTS diary cascade;
+
+CREATE TABLE users (
+	username VARCHAR(100) NOT NULL,
+	password VARCHAR() NOT NULL
+)
+
+CREATE TABLE diary(
+	id SERIAL PRIMARY KEY NOT NULL,
+	username_id VARCHAR() NOT NULL,
+	text VARCHAR(100) NOT NULL,
+	day VARCHAR(30) NOT NULL,
+	date Date NOT NULL
+)
+
+
+
+
+
+COMMIT;
