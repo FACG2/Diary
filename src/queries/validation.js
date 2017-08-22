@@ -6,7 +6,7 @@ const hashPassword = (password, cb) => {
     if (err) {
       cb(err);
     } else {
-      bcrypt.hash(password, salt, (hash, err) => {
+      bcrypt.hash(password, salt, (err, hash) => {
         if (err) {
           cb(err);
         } else {
@@ -18,7 +18,7 @@ const hashPassword = (password, cb) => {
 };
 
 const comparePasswords = (password, hashedPassword, cb) => {
-  bcrypt.compare(password, hashedPassword, (res, err) => {
+  bcrypt.compare(password, hashedPassword, (err, res) => {
     if (err) {
       cb(err);
     } else {
@@ -34,16 +34,16 @@ const validatePassword = (username, password, cb) => {
   };
   dbConnection.query(sql, (err, res) => {
     if (err) {
-      cb(err);
+      cb(new Error('username already exists'));
     } else {
-      comparePasswords(password, res.rows[0], (res, err) => {
+      comparePasswords(password, res.rows[0], (err, res) => {
         if (err) {
           cb(err);
         } else {
           if (!res) {
-            cb(err);
+            cb(new Error('password isn\'t correct'));
           } else {
-            cb(err);
+            cb(null);
           }
         }
       });
@@ -56,14 +56,14 @@ const validateUserName = (username, cb) => {
     text: 'SELECT * FROM users where username= $1',
     values: [username]
   };
-  dbConnection.query(sql, (res, err) => {
+  dbConnection.query(sql, (err, res) => {
     if (err) {
       cb(err);
     } else {
       if (res.rows.length > 0) {
-        cb(err);
+        cb(new Error('username already exists'));
       } else {
-        cb(res.result);
+        cb(null);
       }
     }
   });
