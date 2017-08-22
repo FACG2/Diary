@@ -3,8 +3,8 @@ const dbConnection = require('./database/db_connection.js');
 // signUp Query
 const addUser = (username, password, cb) => {
   const sql = {
-    text: 'INSERT INTO user (username, password) VALUES ($1, $2)',
-    valuess: [username, password]
+    text: 'INSERT INTO users (username, password) VALUES ($1, $2)',
+    values: [username, password]
   };
   dbConnection.query(sql, (err, data) => {
     if (err) {
@@ -15,7 +15,35 @@ const addUser = (username, password, cb) => {
   });
 };
 // login Query
+const checkUser = (username, cb) => {
+  const sql = {
+    text: 'SELECT * FROM users WHERE username= $1',
+    values: [username]
+  };
+  console.log(sql);
+  dbConnection.query(sql, (err, data) => {
+    if (err) {
+      cb(err);
+    } else {
+      cb(null, data.rows);
+    }
+  });
+};
 
+// check diary
+const checkDiary = (username, cb) => {
+  const sql = {
+    text: 'SELECT * FROM diary WHERE username=$1',
+    values: [username]
+  };
+  dbConnection.query(sql, (err, data) => {
+    if (err) {
+      cb(err);
+    } else {
+      cb(null, data.rows);
+    }
+  });
+};
 // add diary Query
 const addDiary = (username, text, date, cb) => {
   const sql = {
@@ -35,5 +63,7 @@ const addDiary = (username, text, date, cb) => {
 
 module.exports = {
   addDiary: addDiary,
-  addUser: addUser
+  addUser: addUser,
+  checkUser: checkUser,
+  checkDiary: checkDiary
 };

@@ -7,8 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "node /test/database.test.js",
-    "lint": "semistandard"
+    "test": "NODE_ENV=test node src/database/db_build.js && NODE_ENV=test node test/database.test.js | tap-spec",
+    "lint": "semistandard --fix"
   },
   "pre-commit": [
     "lint"
@@ -27,7 +27,8 @@
     "cookie": "^0.3.1",
     "env2": "^2.2.0",
     "jsonwebtoken": "^7.4.3",
-    "pg": "^7.1.2"
+    "pg": "^7.1.2",
+    "x-date": "^1.0.2"
   },
   "devDependencies": {
     "nodemon": "^1.11.0",
