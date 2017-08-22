@@ -1,0 +1,39 @@
+{
+  "name": "diary",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "semistandard"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FACG2/Diary.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FACG2/Diary/issues"
+  },
+  "homepage": "https://github.com/FACG2/Diary#readme",
+  "dependencies": {
+    "cookie": "^0.3.1",
+    "env2": "^2.2.0",
+    "jsonwebtoken": "^7.4.3",
+    "pg": "^7.1.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0",
+    "pre-commit": "^1.2.2",
+    "shot": "^3.4.2",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.8.0"
+  }
+}
