@@ -1,7 +1,7 @@
-const user = require('./database/db_connection.js');
+const dbConnection = require('./database/db_connection.js');
 
 // signUp Query
-const addUser = (username, password, cd) => {
+const addUser = (username, password, cb) => {
   const sql = {
     text: 'INSERT INTO user (username, password) VALUES ($1, $2)',
     valuess: [username, password]
@@ -10,19 +10,19 @@ const addUser = (username, password, cd) => {
     if (err) {
       cb(err);
     } else {
-      cb(null, object);
+      cb(null, data);
     }
   });
 };
 // login Query
 
 // add diary Query
-const addDiary = (username, text, date, cd) => {
+const addDiary = (username, text, date, cb) => {
   const sql = {
     text: 'INSERT INTO diary (username, text, date) VALUES ($1, $2, $3);',
     values: [username, text, date]
   };
-  dbConnectio.query(sql, (err, data) => {
+  dbConnection.query(sql, (err, data) => {
     if (err) {
       cb(err);
     } else {
@@ -34,5 +34,6 @@ const addDiary = (username, text, date, cd) => {
 // test addQuery
 
 module.exports = {
-  addDiary: addDiary
+  addDiary: addDiary,
+  addUser: addUser
 };
