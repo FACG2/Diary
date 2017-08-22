@@ -10,12 +10,10 @@ test('password is being hashed correctly', (t) =>
 );
 test('check username exists', (t) => {
   validation.validateUserName('Abdallah', (err) => {
-    if (err.isError) {
+    if (err) {
       console.log(err.message);
     } else {
-      var actual = err.isError;
-      var expected = false;
-      t.equal(actual, expected, 'user doesn\'t exist');
+      t.ok(!err, 'user doesn\'t exist');
       t.end();
     }
   });
