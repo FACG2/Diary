@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "semistandard --fix"
+    "lint": "semistandard --fix",
+    "start": "nodemon ./src/server.js"
   },
   "pre-commit": [
     "lint"
@@ -27,7 +28,9 @@
     "cookie": "^0.3.1",
     "env2": "^2.2.0",
     "jsonwebtoken": "^7.4.3",
-    "pg": "^7.1.2"
+    "path.join": "^1.0.0",
+    "pg": "^7.1.2",
+    "semistandard": "^11.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.11.0",
