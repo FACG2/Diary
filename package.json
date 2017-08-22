@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "NODE_ENV=test node src/database/db_build.js && NODE_ENV=test node test/validation.test.js | tap-spec",
+    "test": " NODE_ENV=test node test/validation.test.js | tap-spec",
     "lint": "semistandard --fix"
   },
   "pre-commit": [
