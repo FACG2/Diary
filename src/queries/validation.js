@@ -36,7 +36,7 @@ const validatePassword = (username, password, cb) => {
     if (err) {
       cb(err);
     } else {
-      comparePasswords(password, res.rows[0], (err, res) => {
+      comparePasswords(password, res.rows[0].password, (err, res) => {
         if (err) {
           cb(err);
         } else {
@@ -72,5 +72,6 @@ const validateUserName = (username, cb) => {
 module.exports = {
   hashPassword,
   validatePassword,
-  validateUserName
+  validateUserName,
+  comparePasswords
 };

@@ -7,8 +7,11 @@
     "test": "test"
   },
   "scripts": {
-    "test": "NODE_ENV=test node src/database/db_build.js && NODE_ENV=test node test/validation.test.js | tap-spec",
-    "lint": "semistandard --fix"
+
+    "test": "NODE_ENV=test node src/database/db_build.js && NODE_ENV=test node test/database.test.js | tap-spec",
+    "lint": "semistandard --fix",
+    "start" : "nodemon NODE_ENV=test ./src/server.js"
+
   },
   "pre-commit": [
     "lint"
@@ -29,7 +32,9 @@
     "cookie": "^0.3.1",
     "env2": "^2.2.0",
     "jsonwebtoken": "^7.4.3",
-    "pg": "^7.1.2"
+    "path.join": "^1.0.0",
+    "pg": "^7.1.2",
+    "semistandard": "^11.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.11.0",
