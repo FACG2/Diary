@@ -10,7 +10,7 @@
 
     "test": "NODE_ENV=test node src/database/db_build.js && NODE_ENV=test node test/database.test.js | tap-spec",
     "lint": "semistandard --fix",
-    "start" : "nodemon ./src/server.js"
+    "start" : "nodemon NODE_ENV=test ./src/server.js"
 
   },
   "pre-commit": [

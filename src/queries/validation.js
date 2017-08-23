@@ -30,13 +30,13 @@ const comparePasswords = (password, hashedPassword, cb) => {
 const validatePassword = (username, password, cb) => {
   var sql = {
     text: 'SELECT password FROM users where username= $1',
-    values: [password]
+    values: [username]
   };
   dbConnection.query(sql, (err, res) => {
     if (err) {
-      cb(new Error('username already exists'));
+      cb(err);
     } else {
-      comparePasswords(password, res.rows[0], (err, res) => {
+      comparePasswords(password, res.rows[0].password, (err, res) => {
         if (err) {
           cb(err);
         } else {
@@ -72,5 +72,6 @@ const validateUserName = (username, cb) => {
 module.exports = {
   hashPassword,
   validatePassword,
-  validateUserName
+  validateUserName,
+  comparePasswords
 };
