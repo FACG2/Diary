@@ -2,14 +2,14 @@ const dbConnection = require('../database/db_connection.js');
 const validation = require('./validation.js');
 
 // signUp Query
-const addUser = (username, password, cb) => {
-  validation.hashPassword(password, (err, hash) => {
+const addUser = (usernam, passwor, cb) => {
+  validation.hashPassword(passwor, (err, hash) => {
     if (err) {
       cb(err);
     } else {
       const sql = {
         text: 'INSERT INTO users (username, password) VALUES ($1, $2)',
-        values: [username, hash]
+        values: [usernam, hash]
       };
 
       dbConnection.query(sql, (err, data) => {
