@@ -39,7 +39,7 @@ function handlerNotFound (req, res) {
       res.writeHead(500, {'content-type': 'text/html'});
       res.end('something went error in not found page');
     } else {
-      res.writeHead(200, {'content-Type': 'text/html'});
+      res.writeHead(404, {'content-Type': 'text/html'});
       res.end(data);
     }
   });
