@@ -1,25 +1,24 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-	    <meta charset="utf-8">
-	    <meta name="viewport" content="width=device-width">
-	    <meta name="author" content="Diary">
-	    <meta name="description" content="Diary">
-	    <meta name="viewport" content="initial-scale=1">
-	    <link rel="stylesheet" href="public/css/style-signup.css">
-	    <link href="//fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic" rel="stylesheet" type="text/css">
-		<title>Diary SignUp</title>
-	</head>
-	<body>
-		<header>
-			<div class="container">
-				<h1 class="sign">signUp</h1>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<meta name="author" content="Diary">
+	<meta name="description" content="Diary">
+	<meta name="viewport" content="initial-scale=1">
+	<link rel="stylesheet" href="public/css/style-signup.css">
+	<link href="//fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic" rel="stylesheet" type="text/css">
+	<title>Diary Sign Up</title>
+</head>
 
-				<form class="formDiv" action="/signUp" method="POST">
-					<label class="username">
+<body>
+	<header>
+		<div class="container">
+			<h1 class="sign">sign up</h1>
 
-
+			<form class="formDiv" action='/signUp' method='POST'>
+				<label class="username">
 						<input type="text" name="username" placeholder="username">
 					</label>
 				<br><br>
@@ -30,14 +29,29 @@
 				<label class="confirm">
 						<input type="password" name="confirm" placeholder="confirm password">
 					</label>
+					<div id="msg">
+
+					</div>
 				<br><br>
-				<button type="submit" class="signup">sign up</button>
+				<button id="submit" type="submit" class="signup">sign up</button>
 		</form>
 
 
 		</div>
 	</header>
-
 </body>
+<script type="text/javascript">
+document.getElementById('submit').addEventListener('click', function (event) {
+  // event.preventDefault();
+
+	  var password = document.getElementsByName('password')[0].value;
+  var confirmPass = document.getElementsByName('confirm')[0].value;
+	// confirmPass.setAttribute('type', 'password');
+  if (password.length < 8 || password != confirmPass) {
+    event.preventDefault();
+    document.getElementById('msg').innerHTML = 'Your password is wrong ';
+  }
+});
+</script>
 
 </html>

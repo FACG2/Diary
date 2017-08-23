@@ -8,13 +8,23 @@ const { addUser, checkDiary, addDiary } = require('./queries/queries.js');
 const {validatePassword} = require('./queries/validation.js');
 
 const home = (req, res) => {
+  console.log(req.headers.cookie);
   if (req.headers.cookie) {
+    console.log(req.headers.cookie);
     const token = cookie.parse(req.headers.cookie).jwt;
     verify(token, SECRET, (err, result) => {
       if (err) {
         console.log(err);
       } else {
-        diary(req, res);
+        var userDetails = {
+          'username': result.username,
+          'loggedin': result.loggedin
+        };
+        const cookie = sign(userDetails, SECRET);
+        res.writeHead(302, {'content-type': 'text/plain',
+          'Location': '/diary',
+          'Set-Cookie': `jwt=${cookie};  username=${result.username}`});
+        res.end();
       }
     });
   } else {
@@ -29,12 +39,21 @@ const home = (req, res) => {
   }
 };
 
+const logout = (req, res) => {
+  res.writeHead(302, {'content-type': 'text/plain',
+    'Location': '/',
+    'Set-Cookie': `jwt=0; username=0; Max-Age=0`});
+  res.end();
+};
+
 const diary = (req, res) => {
   if (req.headers.cookie) {
     const token = cookie.parse(req.headers.cookie).jwt;
     verify(token, SECRET, (err, result) => {
       if (err) {
-        home(req, res);
+        res.writeHead(302, {'content-type': 'text/html',
+          'Location': '/' });
+        res.end();
       } else {
         fs.readFile(path.join(__dirname, '..', 'public', 'diary.html'), (err, data) => {
           if (err) {
@@ -42,7 +61,7 @@ const diary = (req, res) => {
             res.end('Page Not Found');
           } else {
             res.writeHead(200, {'content-type': 'text/html',
-              'Set-Cookie': `jwt=${token.username}; HttpOnly`});
+              'Set-Cookie': `username=${result.username}`});
             res.end(data);
           }
         });
@@ -97,10 +116,10 @@ const signUp = (req, res) => {
             'loggedin': true
           };
           const cookie = sign(userDetails, SECRET);
-          res.writeHead(200, {'content-type': 'text/plain',
+          res.writeHead(302, {'content-type': 'text/plain',
             'Location': '/',
-            'Set-Cookie': `jwt=${cookie}; HttpOnly`});
-          res.end('Sign Up success');
+            'Set-Cookie': `jwt=${cookie}`});
+          res.end();
         }
       });
     });
@@ -110,7 +129,6 @@ const signUp = (req, res) => {
 // login handler
 const login = (req, res) => {
   var data = qs.parse(req.url.split('?')[1]);
-  console.log(data);
   validatePassword(data.username, data.password, (err, list) => {
     if (err) {
       res.writeHead(500, {'content-type': 'text/plain'});
@@ -121,11 +139,9 @@ const login = (req, res) => {
         'loggedin': true
       };
       const cookie = sign(userDetails, SECRET);
-
-      res.writeHead(200, {'content-type': 'application/json',
-        'Set-Cookie': `jwt=${cookie}; HttpOnly
-        Location:`
-      });
+      res.setHeader('Set-Cookie', `jwt=${cookie}; username=${data.username} Max-Age:100000`);
+      res.writeHead(302, {'content-type': 'application/json',
+        'Location': '/diary'});
       res.end(JSON.stringify(list));
     }
   });
@@ -138,13 +154,12 @@ const creatDiary = (req, res) => {
     addText += dataChunks;
   });
   req.on('end', () => {
-    console.log(addText);
-    addText = JSON.parse(addText);
-    addDiary(addText['username'], addText['text'], addText['date'], (err, data) => {
+    var data = qs.parse(addText);
+    addDiary(data.username, data.text, data.date, (err, data) => {
       if (err) {
         console.log(err);
         res.writeHead(500, {'content-type': 'application/json'});
-        res.end('Internal server error');
+        res.end(JSON.stringify({error: 'Internal server error'}));
       } else {
         res.writeHead(200, {'content-type': 'application/json'});
         res.end(JSON.stringify(data));
@@ -155,17 +170,25 @@ const creatDiary = (req, res) => {
 
 // preview diaries
 const showDiaries = (req, res) => {
-  var username = req.url.split('?')[1].split('=')[1];
-  checkDiary(username, (err, list) => {
-    // console.log('checkDiary');
-    if (err) {
-      res.writeHead(500, {'content-type': 'text/plain'});
-      res.end('Not Found');
-    } else {
-      res.writeHead(200, {'content-type': 'application/json'});
-      res.end(JSON.stringify(list));
-    }
-  });
+  if (req.headers.cookie) {
+    const token = cookie.parse(req.headers.cookie).jwt;
+    verify(token, SECRET, (err, result) => {
+      if (err) {
+        res.writeHead(500, {'content-type': 'text/plain'});
+        res.end('Internal server error');
+      } else {
+        checkDiary(result.username, (err, list) => {
+          if (err) {
+            res.writeHead(500, {'content-type': 'text/plain'});
+            res.end('Internal server error');
+          } else {
+            res.writeHead(200, {'content-type': 'application/json'});
+            res.end(JSON.stringify(list));
+          }
+        });
+      }
+    });
+  }
 };
 
 const notFound = (req, res) => {
@@ -178,6 +201,7 @@ module.exports = {
   home: home,
   publicHandler: publicHandler,
   diary: diary,
+  logout: logout,
   signUpPage: signUpPage,
   signUp: signUp,
   login: login,

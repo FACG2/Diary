@@ -16,7 +16,8 @@ const router = (req, res) => {
     '/login': handlers.login,
     '/creatdiary': handlers.creatDiary,
     '/showdiary': handlers.showDiaries,
-    '/diary': handlers.diary
+    '/diary': handlers.diary,
+    '/logout': handlers.logout
   }[url];
 
   handle = handle || handlers.notFound;
