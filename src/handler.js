@@ -1,59 +1,9 @@
 const fs = require('fs');
 const path = require('path');
-const { addUser, checkUser, checkDiary, addDiary } = require('./src/queries.js');
-// const { hashPassword, comparePasswords, validatePassword, validateUserName } = require('./src/validation.js');
-// // const queryString = require('querystring');
-//
-// // const contentType = {
-// //   css: 'text/css',
-// //   js: 'application/js',
-// //   ico: 'image/x-icon',
-// //   html: 'text/html'
-// // };
-//
-// function handlerHome (req, res) {
-//   fs.readFile(pathJoin(__dirname, '/../public/home.html'), (err, data) => {
-//     if (err) {
-//       res.writeHead(500, {'content-Type': 'text/html'});
-//       res.end('something went error in home page');
-//     } else {
-//       res.writeHead(200, {'content-Type': 'text/html'});
-//       res.end(data);
-//     }
-//   });
-// }
-//
-// function handlerSignUp (req, res) {
-//   fs.readFile(pathJoin(__dirname, '/../public/signup.html'), (err, data) => {
-//     if (err) {
-//       res.writeHead(500, {'content-type': 'text/html'});
-//       res.end('something went error in signup page');
-//     } else {
-//       res.writeHead(200, {'content-Type': 'text/html'});
-//       res.end(data);
-//     }
-//   });
-// }
-//
-// function handlerNotFound (req, res) {
-//   fs.readFile(pathJoin(__dirname, '/../public/notfound.html'), (err, data) => {
-//     if (err) {
-//       res.writeHead(500, {'content-type': 'text/html'});
-//       res.end('something went error in not found page');
-//     } else {
-//       res.writeHead(200, {'content-Type': 'text/html'});
-//       res.end(data);
-//     }
-//   });
-// }
-//
-// module.exports = {
-//   handlerHome,
-//   handlerSignUp,
-//   handlerNotFound
-// };
+const { addUser, checkUser, checkDiary, addDiary } = require('./queries/queries.js');
+
 const home = (req, res) => {
-  fs.readFile(path.join(__dirname, '..', 'public', 'index.html'), (err, data) => {
+  fs.readFile(path.join(__dirname, '..', 'public', 'home.html'), (err, data) => {
     if (err) {
       res.writeHead(404, {'content-type': 'text/plain'});
       res.end('Page Not Found');
@@ -80,7 +30,7 @@ const publicHandler = (req, res) => {
 // sign up handler
 const signUp = (req, res) => {
   let userData = '';
-  req.on('user', (userChunck) => {
+  req.on('data', (userChunck) => {
     userData += userChunck;
   });
   if (userData) {
@@ -106,30 +56,14 @@ const signUp = (req, res) => {
 
 // login handler
 const login = (req, res) => {
-  let data = '';
-  req.on('data', (chunck) => {
-    data += chunck;
-  });
-  req.end('end', () => {
-    if (data) {
-      data = JSON.parse(data);
-      const username = ''; // ///////??????
-      checkUser(data, (isExist) => {
-        if (isExist) {
-          checkDiary(username, (err, list) => {
-            if (err) {
-              res.writeHead(500, {'content-type': 'text/plain'});
-              res.end('Not Found');
-            } else {
-              res.writeHead(200, {'content-type': 'application/json'});
-              res.end(JSON.stringify(list));
-            }
-          });
-        } else {
-          res.writeHead(500, {'content-type': 'text/plain'});
-          res.end('User Not Found');
-        }
-      });
+  const username = req.url.split('?')[1].split('=')[1]; // ///////??????
+  checkUser(username, (err, list) => {
+    if (err) {
+      res.writeHead(500, {'content-type': 'text/plain'});
+      res.end('Not Found');
+    } else {
+      res.writeHead(200, {'content-type': 'application/json'});
+      res.end(JSON.stringify(list));
     }
   });
 };
@@ -165,37 +99,19 @@ const creatDiary = (req, res) => {
 };
 
 // preview diaries
-// const showDiaries = (req, res) => {
-//   let data = '';
-//   req.on('data', function (chunk) {
-//     data += chunk;
-//   });
-//   req.on('end', () => {
-//     if (data) {
-//       data = JSON.parse(data);
-//       const today = new Date().format('mm-dd');
-//       checkMemberCredits(data, (isExist) => {
-//         if (isExist) {
-//           checkDiary(diaries, (err, list) => {
-//             if (err) {
-//               res.writeHead(500, {'content-type': 'text/plain'});
-//               res.end('NOT Found');
-//             } else {
-//               res.writeHead(200, {'content-type': 'application/json'});
-//               res.end(JSON.stringify(list));
-//             }
-//           });
-//         } else {
-//           res.writeHead(500, {'content-type': 'text/plain'});
-//           res.end('Diaries Not Found');
-//         }
-//       });
-//     } else {
-//       res.writeHead(500, {'content-type': 'text/plain'});
-//       res.end('Diaries Not Found');
-//     }
-//   });
-// };
+const showDiaries = (req, res) => {
+  var username = req.url.split('?')[1].split('=')[1];
+  checkDiary(username, (err, list) => {
+    // console.log('checkDiary');
+    if (err) {
+      res.writeHead(500, {'content-type': 'text/plain'});
+      res.end('Not Found');
+    } else {
+      res.writeHead(200, {'content-type': 'application/json'});
+      res.end(JSON.stringify(list));
+    }
+  });
+};
 
 const notFound = (req, res) => {
   res.writeHead(404, {'content-type': 'text/plain'});
@@ -209,6 +125,6 @@ module.exports = {
   signUp: signUp,
   login: login,
   creatDiary: creatDiary,
-  // showDiaries: showDiaries,
+  showDiaries: showDiaries,
   notFound: notFound
 };
