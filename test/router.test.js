@@ -2,23 +2,30 @@ const test = require('tape');
 const shot = require('shot');
 const router = require('../src/router.js');
 
-test('Home rout returns a status code of 200', (t) => {
-  shot.inject(router, {method: 'get', url: '/home'}, (res) => {
+test('Home route test', (t) => {
+  shot.inject(router, {method: 'get', url: '/'}, (res) => {
     t.equal(res.statusCode, 200, 'respond with 200');
     t.end();
   });
 });
 
-test('Home route returns a status code of 404', (t) => {
-  shot.inject(router, {method: 'get', url: '/afsdfh'}, (res) => {
+test('Home Not Found test', (t) => {
+  shot.inject(router, {method: 'get', url: '/ss'}, (res) => {
     t.equal(res.statusCode, 404, 'respond with 404');
     t.end();
   });
 });
 
-test('Sign up route returns a status code of 200', (t) => {
-  shot.inject(router, {method: 'post', url: '/signup'}, (res) => {
-    t.equal(res.statusCode, 200, 'respond with 200');
+test('Public style route test', (t) => {
+  shot.inject(router, {method: 'get', url: '/public/css/style.css'}, (res) => {
+    t.equal(res.statusCode, 200, 'public respond with 200');
+    t.end();
+  });
+});
+
+test('Public js route test', (t) => {
+  shot.inject(router, {method: 'get', url: '/public/js/index.js'}, (res) => {
+    t.equal(res.statusCode, 200, 'public respond with 200');
     t.end();
   });
 });

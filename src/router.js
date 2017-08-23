@@ -1,15 +1,18 @@
-const handler = require('./handler.js');
+const handlers = require('./handler.js');
 
-function router (req, res) {
-  let url = req.url;
+const router = (req, res) => {
+  const url = '/' + req.url.split('/')[1];
+  let handle = {
+    '/': handlers.home,
+    '/public': handlers.publicHandler,
+    '/signup': handlers.signUp,
+    '/login': handlers.login,
+    '/creatdiary': handlers.creatDiary,
+    '/showdiary': handlers.showDiaries
+  }[url];
 
-  if (url === '/home' || url === '/') {
-    handler.handlerHome(req, res);
-  } else if (url === '/signup') {
-    handler.handlerSignUp(req, res);
-  } else {
-    handler.handlerNotFound(req, res);
-  }
-}
+  handle = handle || handlers.notFound;
+  handle(req, res);
+};
 
 module.exports = router;
