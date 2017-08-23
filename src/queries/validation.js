@@ -18,6 +18,7 @@ const hashPassword = (password, cb) => {
 };
 
 const comparePasswords = (password, hashedPassword, cb) => {
+  console.log(password, hashedPassword);
   bcrypt.compare(password, hashedPassword, (err, res) => {
     if (err) {
       cb(err);
@@ -41,6 +42,7 @@ const validatePassword = (username, password, cb) => {
           cb(err);
         } else {
           if (!res) {
+            console.log(res);
             cb(new Error('password isn\'t correct'));
           } else {
             cb(null);

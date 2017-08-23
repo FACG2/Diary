@@ -28,7 +28,7 @@ const addUser = (username, passwor, cb) => {
   });
 };
 // login Query
-const checkUser = (username, cb) => {
+const checkUser = (username, password, cb) => {
   const sql = {
     text: 'SELECT * FROM users WHERE username= $1',
     values: [username]
