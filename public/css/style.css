@@ -13,8 +13,12 @@ body{
 	max-width: 1000px;
 	width: 100%;
 	margin: auto;
-	/*display: flex;*/
-	/*flex-direction: column;*/
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+
 }
 
 
@@ -27,11 +31,8 @@ h1{
 }
 
 .formDiv{
-	/*justify-content: center;*/
 	text-align: center;
 	width:70%;
-	/*display: inline-block;*/
-	margin-left: 165px;
 	padding: 60px 0;
     background: rgba(125, 63, 152, 0.52);
     border-radius: 7px
