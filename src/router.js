@@ -27,7 +27,7 @@ const router = (req, res) => {
     '/showdiary': handlers.showDiaries
   }[url];
 
-  handle = handle ? handle : handlers.notFound;
+  handle = handle || handlers.notFound;
   handle(req, res);
 };
 

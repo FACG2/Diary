@@ -165,37 +165,37 @@ const creatDiary = (req, res) => {
 };
 
 // preview diaries
-const showDiaries = (req, res) => {
-  let data = '';
-  req.on('data', function (chunk) {
-    data += chunk;
-  });
-  req.on('end', () => {
-    if (data) {
-      data = JSON.parse(data);
-      const today = new Date().format('mm-dd');
-      checkMemberCredits(data, (isExist) => {
-        if (isExist) {
-          checkDiary(diaries, (err, list) => {
-            if (err) {
-              res.writeHead(500, {'content-type': 'text/plain'});
-              res.end('NOT Found');
-            } else {
-              res.writeHead(200, {'content-type': 'application/json'});
-              res.end(JSON.stringify(list));
-            }
-          });
-        } else {
-          res.writeHead(500, {'content-type': 'text/plain'});
-          res.end('Diaries Not Found');
-        }
-      });
-    } else {
-      res.writeHead(500, {'content-type': 'text/plain'});
-      res.end('Diaries Not Found');
-    }
-  });
-};
+// const showDiaries = (req, res) => {
+//   let data = '';
+//   req.on('data', function (chunk) {
+//     data += chunk;
+//   });
+//   req.on('end', () => {
+//     if (data) {
+//       data = JSON.parse(data);
+//       const today = new Date().format('mm-dd');
+//       checkMemberCredits(data, (isExist) => {
+//         if (isExist) {
+//           checkDiary(diaries, (err, list) => {
+//             if (err) {
+//               res.writeHead(500, {'content-type': 'text/plain'});
+//               res.end('NOT Found');
+//             } else {
+//               res.writeHead(200, {'content-type': 'application/json'});
+//               res.end(JSON.stringify(list));
+//             }
+//           });
+//         } else {
+//           res.writeHead(500, {'content-type': 'text/plain'});
+//           res.end('Diaries Not Found');
+//         }
+//       });
+//     } else {
+//       res.writeHead(500, {'content-type': 'text/plain'});
+//       res.end('Diaries Not Found');
+//     }
+//   });
+// };
 
 const notFound = (req, res) => {
   res.writeHead(404, {'content-type': 'text/plain'});
@@ -209,6 +209,6 @@ module.exports = {
   signUp: signUp,
   login: login,
   creatDiary: creatDiary,
-  showDiaries: showDiaries,
+  // showDiaries: showDiaries,
   notFound: notFound
 };
