@@ -1,13 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 const qs = require('querystring');
+//const { sign, verify } = require('jsonwebtoken');
+//const SECRET = 'Where Am I?';
 const { addUser, checkUser, checkDiary, addDiary } = require('./queries/queries.js');
 
 const home = (req, res) => {
   fs.readFile(path.join(__dirname, '..', 'public', 'home.html'), (err, data) => {
     if (err) {
-      res.writeHead(404, {'content-type': 'text/plain'});
-      res.end('Page Not Found');
+      notFound();
     } else {
       res.writeHead(200, {'content-type': 'text/html'});
       res.end(data);
