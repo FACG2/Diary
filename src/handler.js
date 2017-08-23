@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const qs = require('querystring');
 const { addUser, checkUser, checkDiary, addDiary } = require('./queries/queries.js');
 
 const home = (req, res) => {
@@ -27,27 +28,34 @@ const publicHandler = (req, res) => {
   });
 };
 
+const signUpPage = (req, res) => {
+  fs.readFile(path.join(__dirname, '..', 'public', 'signup.html'), (err, data) => {
+    if (err) {
+      res.writeHead(404, {'content-type': 'text/plain'});
+      res.end('Page Not Found');
+    } else {
+      res.writeHead(200, {'content-type': 'text/html'});
+      res.end(data);
+    }
+  });
+};
+
 // sign up handler
 const signUp = (req, res) => {
   let userData = '';
   req.on('data', (userChunck) => {
     userData += userChunck;
   });
-  if (userData) {
+  if (userData !== undefined) {
     req.on('end', () => {
-      userData = JSON.parse(userData);
-      addUser(userData.username, userData.password, (err, res) => {
+      addUser(qs.parse(userData).username, qs.parse(userData).password, (err, response) => {
         if (err) {
-          res.writeHead(404, {'content-type': 'text/plain'});
-          res.end('Page Not Found');
+          res.writeHead(406, {'content-type': 'text/plain'});
+          res.end(err.message);
         } else {
-          if (res.check) {
-            res.writeHead(200, {'content-type': 'application/json'});
-            res.end('Sign Up success');
-          } else {
-            res.writeHead(404, {'content-type': 'text/plain'});
-            res.end('Sign Up failed');
-          }
+          res.writeHead(200, {'content-type': 'text/plain',
+            'Location': '/'});
+          res.end('Sign Up success');
         }
       });
     });
@@ -56,11 +64,12 @@ const signUp = (req, res) => {
 
 // login handler
 const login = (req, res) => {
+  console.log('dgg');
   const username = req.url.split('?')[1].split('=')[1]; // ///////??????
   checkUser(username, (err, list) => {
     if (err) {
       res.writeHead(500, {'content-type': 'text/plain'});
-      res.end('Not Found');
+      res.end(err.message);
     } else {
       res.writeHead(200, {'content-type': 'application/json'});
       res.end(JSON.stringify(list));
@@ -74,28 +83,20 @@ const creatDiary = (req, res) => {
   req.on('data', function (dataChunks) {
     addText += dataChunks;
   });
-  if (addText) {
-    req.on('end', () => {
-      addText = JSON.parse(addText);
-      addDiary(addText.username, addText.text, addText.date, (err, res) => {
-        if (err) {
-          res.writeHead(404, {'content-type': 'text/plain'});
-          res.end('Page Not Found');
-        } else {
-          if (res.check) {
-            res.writeHead(200, {'content-type': 'application/json'});
-            res.end('Write diary success');
-          } else {
-            res.writeHead(404, {'content-type': 'text/plain'});
-            res.end('Failed Write diary');
-          }
-        }
-      });
+  req.on('end', () => {
+    console.log(addText);
+    addText = JSON.parse(addText);
+    addDiary(addText['username'], addText['text'], addText['date'], (err, data) => {
+      if (err) {
+        console.log(err);
+        res.writeHead(500, {'content-type': 'application/json'});
+        res.end('Internal server error');
+      } else {
+        res.writeHead(200, {'content-type': 'application/json'});
+        res.end(JSON.stringify(data));
+      }
     });
-  } else {
-    res.writeHead(404, {'content-type': 'text/plain'});
-    res.end('Page Not Found');
-  }
+  });
 };
 
 // preview diaries
@@ -122,6 +123,7 @@ const notFound = (req, res) => {
 module.exports = {
   home: home,
   publicHandler: publicHandler,
+  signUpPage: signUpPage,
   signUp: signUp,
   login: login,
   creatDiary: creatDiary,

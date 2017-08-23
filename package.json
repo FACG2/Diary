@@ -7,11 +7,14 @@
     "test": "test"
   },
   "scripts": {
-
     "test": "NODE_ENV=test node src/database/db_build.js && NODE_ENV=test node test/database.test.js | tap-spec",
     "lint": "semistandard --fix",
+<<<<<<< HEAD
     "start" : "NODE_ENV=test nodemon  src/server.js"
 
+=======
+    "start": " NODE_ENV=test nodemon src/server.js"
+>>>>>>> 266499b1c14a66112108e3fa81b74697ee367e0e
   },
   "pre-commit": [
     "lint"
