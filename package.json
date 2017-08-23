@@ -9,7 +9,7 @@
   "scripts": {
     "test": "NODE_ENV=test node src/database/db_build.js && NODE_ENV=test node test/database.test.js | tap-spec",
     "lint": "semistandard --fix",
-    "start": " NODE_ENV=test nodemon src/server.js"
+    "start": "NODE_ENV=test nodemon src/server.js"
   },
   "pre-commit": [
     "lint"
@@ -28,10 +28,11 @@
     "bcrypt": "^1.0.2",
     "bcryptjs": "^2.4.3",
     "cookie": "^0.3.1",
+    "env": "0.0.2",
     "env2": "^2.2.0",
     "jsonwebtoken": "^7.4.3",
     "path.join": "^1.0.0",
-    "pg": "^7.1.2",
+    "pg": "^7.2.0",
     "semistandard": "^11.0.0"
   },
   "devDependencies": {
