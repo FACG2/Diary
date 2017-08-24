@@ -127,25 +127,32 @@ const signUp = (req, res) => {
 
 // login handler
 const login = (req, res) => {
-  var data = qs.parse(req.url.split('?')[1]);
-  validatePassword(data.username, data.password, (err, list) => {
-    if (err) {
-      res.writeHead(500, {'content-type': 'text/plain'});
-      res.end(err.message);
-    } else {
-      var userDetails = {
-        'username': data.username,
-        'loggedin': true
-      };
-      const cookie = sign(userDetails, SECRET);
-      res.setHeader('Set-Cookie', `jwt=${cookie}; username=${data.username}; Max-Age=100000;Max-Age=100000`);
-      res.writeHead(302, {'content-type': 'application/json',
-        'Location': '/diary'});
-      res.end(JSON.stringify(list));
-    }
+  let userLog = '';
+  req.on('data', (userChunck) => {
+    userLog += userLog;
   });
+  if (userLog !== undefined) {
+    req.on('end', () => {
+      var data = qs.parse(req.url.split('?')[1]);
+      validatePassword(data.username, data.password, (err, list) => {
+        if (err) {
+          res.writeHead(500, {'content-type': 'text/plain'});
+          res.end(err.message);
+        } else {
+          var userDetails = {
+            'username': data.username,
+            'loggedin': true
+          };
+          const cookie = sign(userDetails, SECRET);
+          res.setHeader('Set-Cookie', `jwt=${cookie}; username=${data.username} Max-Age:100000`);
+          res.writeHead(302, {'content-type': 'application/json',
+            'Location': '/diary'});
+          res.end(JSON.stringify(list));
+        }
+      });
+    });
+  }
 };
-
 // add diary handler
 const creatDiary = (req, res) => {
   let addText = '';
