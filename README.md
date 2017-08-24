@@ -15,7 +15,7 @@ Make an Application for allowing to write and save your diary.
 ### Requirements
 
 - [x] Login form with 2 fields - username and password
-- [x]Client-side and server-side validation on login form, including error handling that provides feedback to users
+- [x] Client-side and server-side validation on login form, including error handling that provides feedback to users
 - [x] Users only have to log in once (i.e. implement a cookie-based session on login)
 - [x] Username is visible on each page of the site after logging in
 - [x] Any user-submitted content should be labelled with the authors username
