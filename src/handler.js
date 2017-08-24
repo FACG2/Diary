@@ -190,11 +190,45 @@ const showDiaries = (req, res) => {
   }
 };
 
-const notFound = (req, res) => {
-  res.writeHead(404, {'content-type': 'text/plain'});
-  res.end('Page Not Found');
+const showDiariesPage = (req, res) => {
+  fs.readFile(path.join(__dirname, '..', 'public', 'diary.html'), (err, data) => {
+    if (err) {
+      res.writeHead(404, {'content-type': 'text/plain'});
+      res.end('Page Not Found');
+    } else {
+      res.writeHead(200, {'content-type': 'text/html'});
+      res.end(data);
+    }
+  });
 };
 
+const notFound = (req, res) => {
+  // res.writeHead(404, {'content-type': 'text/plain'});
+  // res.end('Page Not Found');
+  fs.readFile(path.join(__dirname, '..', 'public', 'notfound.html'), (err, data) => {
+    if (err) {
+      res.writeHead(404, {'content-type': 'text/plain'});
+      res.end('Page Not Found');
+    } else {
+      res.writeHead(200, {'content-type': 'text/html'});
+      res.end(data);
+    }
+  });
+};
+
+/*
+const signUpPage = (req, res) => {
+  fs.readFile(path.join(__dirname, '..', 'public', 'signup.html'), (err, data) => {
+    if (err) {
+      res.writeHead(404, {'content-type': 'text/plain'});
+      res.end('Page Not Found');
+    } else {
+      res.writeHead(200, {'content-type': 'text/html'});
+      res.end(data);
+    }
+  });
+};
+*/
 // exports
 module.exports = {
   home: home,
@@ -206,5 +240,6 @@ module.exports = {
   login: login,
   creatDiary: creatDiary,
   showDiaries: showDiaries,
-  notFound: notFound
+  notFound: notFound,
+  showDiariesPage: showDiariesPage
 };
