@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const qs = require('querystring');
-const { addUser, checkUser, checkDiary, addDiary } = require('./queries/queries.js');
+const { addUser, checkDiary, addDiary } = require('./queries/queries.js');
+const {validatePassword} = require('./queries/validation.js');
 
 const home = (req, res) => {
   fs.readFile(path.join(__dirname, '..', 'public', 'home.html'), (err, data) => {
@@ -65,8 +66,10 @@ const signUp = (req, res) => {
 // login handler
 const login = (req, res) => {
   console.log('dgg');
-  const username = req.url.split('?')[1].split('=')[1]; // ///////??????
-  checkUser(username, (err, list) => {
+  var data = qs.parse(req.url.split('?')[1]);
+  console.log(data);
+  // const username = req.url.split('?')[1].split('=')[1].split; // ///////??????
+  validatePassword(data.username, data.password, (err, list) => {
     if (err) {
       res.writeHead(500, {'content-type': 'text/plain'});
       res.end(err.message);
