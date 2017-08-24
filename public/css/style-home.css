@@ -41,8 +41,7 @@ h1{
 }
 
 
- .login,
- .signup{
+ .login{
 	width: 28%;
 	padding: 15px 0;
 	text-transform: uppercase;
@@ -50,11 +49,19 @@ h1{
 	font-weight: bold;
 	border: none;
 	color: #FFF;
-	border-radius: 7px
+	border-radius: 7px;
+	margin-left: -210px
 }
- .signup{
-	margin-left: 10px;
-	background-color: #d52685;
+ a{
+    background-color: #d52685;
+    text-decoration: none;
+    color: #FFF;
+    font-size: 25px;
+    border-radius: 5px;
+    padding: 11px 47px;
+    margin-top: -112px;
+    margin-left: 213px;
+    text-transform: uppercase;
 }
 .login{
 	background-color: #1AB188
