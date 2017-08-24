@@ -7,7 +7,6 @@ const router = (req, res) => {
   } else {
     url = '/' + req.url.split('/')[1];
   }
-  console.log(url);
 
   let handle = {
     '/': handlers.home,
@@ -17,7 +16,8 @@ const router = (req, res) => {
     '/login': handlers.login,
     '/creatdiary': handlers.creatDiary,
     '/showdiary': handlers.showDiaries,
-    '/showDiariesPage': handlers.showDiariesPage
+    '/diary': handlers.diary,
+    '/logout': handlers.logout
   }[url];
 
   handle = handle || handlers.notFound;

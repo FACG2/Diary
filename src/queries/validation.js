@@ -37,18 +37,22 @@ const validatePassword = (username, password, cb) => {
     if (err) {
       cb(err);
     } else {
-      comparePasswords(password, res.rows[0].password, (err, res) => {
-        if (err) {
-          cb(err);
-        } else {
-          if (!res) {
-            console.log(res);
-            cb(new Error('password isn\'t correct'));
+      if (res.rows.length === 0) {
+        cb(new Error('user doens\'t exist'));
+      } else {
+        comparePasswords(password, res.rows[0].password, (err, res) => {
+          if (err) {
+            cb(err);
           } else {
-            cb(null);
+            if (!res) {
+              console.log(res);
+              cb(new Error('password isn\'t correct'));
+            } else {
+              cb(null);
+            }
           }
-        }
-      });
+        });
+      }
     }
   });
 };
