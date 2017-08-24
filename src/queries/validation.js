@@ -29,30 +29,37 @@ const comparePasswords = (password, hashedPassword, cb) => {
 };
 
 const validatePassword = (username, password, cb) => {
-  var sql = {
-    text: 'SELECT password FROM users where username= $1',
-    values: [username]
-  };
-  dbConnection.query(sql, (err, res) => {
-    if (err) {
-      cb(err);
+  validateUserName(username, (err) => {
+    if (!err) {
+      cb(new Error('user doens\'t exist'));
     } else {
-      if (res.rows.length === 0) {
-        cb(new Error('user doens\'t exist'));
-      } else {
-        comparePasswords(password, res.rows[0].password, (err, res) => {
-          if (err) {
-            cb(err);
+      console.log();
+      var sql = {
+        text: 'SELECT password FROM users where username= $1',
+        values: [username]
+      };
+      dbConnection.query(sql, (err, res) => {
+        if (err) {
+          cb(err);
+        } else {
+          if (res.rows.length === 0) {
+            cb(new Error('user doens\'t exist'));
           } else {
-            if (!res) {
-              console.log(res);
-              cb(new Error('password isn\'t correct'));
-            } else {
-              cb(null);
-            }
+            comparePasswords(password, res.rows[0].password, (err, res) => {
+              if (err) {
+                cb(err);
+              } else {
+                if (!res) {
+                  console.log(res);
+                  cb(new Error('password isn\'t correct'));
+                } else {
+                  cb(null);
+                }
+              }
+            });
           }
-        });
-      }
+        }
+      });
     }
   });
 };
