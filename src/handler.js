@@ -9,8 +9,7 @@ const {validatePassword} = require('./queries/validation.js');
 
 const home = (req, res) => {
   console.log(req.headers.cookie);
-  if (req.headers.cookie) {
-    console.log(req.headers.cookie);
+  if (req.headers.cookie && cookie.parse(req.headers.cookie).jwt) {
     const token = cookie.parse(req.headers.cookie).jwt;
     verify(token, SECRET, (err, result) => {
       if (err) {
@@ -154,7 +153,6 @@ const login = (req, res) => {
     });
   }
 };
-
 // add diary handler
 const creatDiary = (req, res) => {
   let addText = '';
