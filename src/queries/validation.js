@@ -33,6 +33,7 @@ const validatePassword = (username, password, cb) => {
     if (!err) {
       cb(new Error('user doens\'t exist'));
     } else {
+      console.log();
       var sql = {
         text: 'SELECT password FROM users where username= $1',
         values: [username]
