@@ -22,7 +22,7 @@ INSERT INTO users(username,password) VALUES
 	('ali','1237');
 
 INSERT INTO diary(username,text,date) VALUES
-	('moaz', 'hey today is 20 Aug','08-20-2017'),
+	('moaz', 'hey today is 20 Aug','08-20-2016'),
 	('moaz', 'hey today is 19 Aug','08-19-2017'),
 	('moaz', 'hey today is 18 Aug','08-18-2017'),
 	('maha', 'hello world from maha','08-19-2017'),
