@@ -27,8 +27,7 @@ h1{
 	margin-bottom: 50px;
 	margin-top: 80px;
 	text-transform: capitalize;
-	color: #FFF;
-	font-size: 40px
+	color: #FFF
 }
 
 .formDiv{
@@ -41,7 +40,8 @@ h1{
 }
 
 
- .login{
+ .login,
+ .signup{
 	width: 28%;
 	padding: 15px 0;
 	text-transform: uppercase;
@@ -49,29 +49,61 @@ h1{
 	font-weight: bold;
 	border: none;
 	color: #FFF;
-	border-radius: 7px;
-	margin-left: -210px
+	border-radius: 7px
 }
- a{
-    background-color: #d52685;
-    text-decoration: none;
-    color: #FFF;
-    font-size: 25px;
-    border-radius: 5px;
-    padding: 11px 47px;
-    margin-top: -112px;
-    margin-left: 213px;
-    text-transform: uppercase;
+ .signup{
+	margin-left: 10px;
+	background-color: #d52685;
 }
 .login{
 	background-color: #1AB188
 }
 
-
 .username input,
-.password input{
+.password input,
+.confirm input{
 	padding: 12px 0 12px 5px;
 	width: 58%;
 	font-size: 18px;
 	border-radius: 7px;
 }
+.sign{
+	font-size: 45px;
+	margin-top: 60px
+}
+
+/*start not found page*/
+
+.allPage {
+    background: #081421;
+    color: #d3d7de;
+    font-family: "Courier new";
+    font-size: 18px;
+    line-height: 1.5em;
+    cursor: default;
+}
+
+.code-area {
+    position: absolute;
+    padding: 2%;
+    width: 320px;
+    min-width: 320px;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+#home {
+    color: white;
+    text-decoration: none
+}
+
+#home:hover {
+    color: #1abc9c;
+}
+
+.code-area>span {
+    display: block;
+}
+/*end not found page*/

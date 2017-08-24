@@ -127,25 +127,32 @@ const signUp = (req, res) => {
 
 // login handler
 const login = (req, res) => {
-  var data = qs.parse(req.url.split('?')[1]);
-  validatePassword(data.username, data.password, (err, list) => {
-    if (err) {
-      res.writeHead(500, {'content-type': 'text/plain'});
-      res.end(err.message);
-    } else {
-      var userDetails = {
-        'username': data.username,
-        'loggedin': true
-      };
-      const cookie = sign(userDetails, SECRET);
-      res.setHeader('Set-Cookie', `jwt=${cookie}; username=${data.username}; Max-Age=100000;Max-Age=100000`);
-      res.writeHead(302, {'content-type': 'application/json',
-        'Location': '/diary'});
-      res.end(JSON.stringify(list));
-    }
+  let userLog = '';
+  req.on('data', (userChunck) => {
+    userLog += userLog;
   });
+  if (userLog !== undefined) {
+    req.on('end', () => {
+      var data = qs.parse(req.url.split('?')[1]);
+      validatePassword(data.username, data.password, (err, list) => {
+        if (err) {
+          res.writeHead(500, {'content-type': 'text/plain'});
+          res.end(err.message);
+        } else {
+          var userDetails = {
+            'username': data.username,
+            'loggedin': true
+          };
+          const cookie = sign(userDetails, SECRET);
+          res.setHeader('Set-Cookie', `jwt=${cookie}; username=${data.username} Max-Age:100000`);
+          res.writeHead(302, {'content-type': 'application/json',
+            'Location': '/diary'});
+          res.end(JSON.stringify(list));
+        }
+      });
+    });
+  }
 };
-
 // add diary handler
 const creatDiary = (req, res) => {
   let addText = '';
@@ -190,11 +197,45 @@ const showDiaries = (req, res) => {
   }
 };
 
-const notFound = (req, res) => {
-  res.writeHead(404, {'content-type': 'text/plain'});
-  res.end('Page Not Found');
+const showDiariesPage = (req, res) => {
+  fs.readFile(path.join(__dirname, '..', 'public', 'diary.html'), (err, data) => {
+    if (err) {
+      res.writeHead(404, {'content-type': 'text/plain'});
+      res.end('Page Not Found');
+    } else {
+      res.writeHead(200, {'content-type': 'text/html'});
+      res.end(data);
+    }
+  });
 };
 
+const notFound = (req, res) => {
+  // res.writeHead(404, {'content-type': 'text/plain'});
+  // res.end('Page Not Found');
+  fs.readFile(path.join(__dirname, '..', 'public', 'notfound.html'), (err, data) => {
+    if (err) {
+      res.writeHead(404, {'content-type': 'text/plain'});
+      res.end('Page Not Found');
+    } else {
+      res.writeHead(200, {'content-type': 'text/html'});
+      res.end(data);
+    }
+  });
+};
+
+/*
+const signUpPage = (req, res) => {
+  fs.readFile(path.join(__dirname, '..', 'public', 'signup.html'), (err, data) => {
+    if (err) {
+      res.writeHead(404, {'content-type': 'text/plain'});
+      res.end('Page Not Found');
+    } else {
+      res.writeHead(200, {'content-type': 'text/html'});
+      res.end(data);
+    }
+  });
+};
+*/
 // exports
 module.exports = {
   home: home,
@@ -206,5 +247,6 @@ module.exports = {
   login: login,
   creatDiary: creatDiary,
   showDiaries: showDiaries,
-  notFound: notFound
+  notFound: notFound,
+  showDiariesPage: showDiariesPage
 };
