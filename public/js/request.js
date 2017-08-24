@@ -15,10 +15,10 @@ var request = function (method, url, data, callback) {
   }
 };
 
-var get = function (url, cb) {
+var get = function (url, cb) {  // eslint-disable-line
   request('GET', url, null, cb);
 };
 
-var post = function (url, data, cb) {
+var post = function (url, data, cb) {// eslint-disable-line
   request('POST', url, data, cb);
 };

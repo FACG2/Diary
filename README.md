@@ -1,23 +1,8 @@
 # Diary
-Team: @Sohadwd, @moath14, @mahmne, @abdhalees
 
-## How to use our Website:
-To check out the app, please clone this repository.
+## Abstract idea:
+Make an Application for allowing to write and save your diary.
 
-`git clone`
-
-install the dependencies
-
-`npm i`
-
-Run start
-
-`npm start`
-
-
-
-## Our Product:
-We want to create a web application which displays diaries with username and date
 ### User Stories
 > as a user
 
@@ -26,29 +11,23 @@ We want to create a web application which displays diaries with username and dat
 - I can write any diary and save it with the day and date that I write it
 - I can see all my diary that I wrote it when I login to my account
 
-### Schemas:
 
-**Diary**
+### Requirements
 
-| id  | username | text | Date |
-| --- | ------------ | ------ | -------- |
-| 1   | Moath | hello world | 2017-08-17 |
-| 2   | Abed | welcome | 2017-08-17 |
-| 3   | Sohad | welcome to website | 2017-08-17 |
+- [x] Login form with 2 fields - username and password
+- [x] Client-side and server-side validation on login form, including error handling that provides feedback to users
+- [x] Users only have to log in once (i.e. implement a cookie-based session on login)
+- [x] Username is visible on each page of the site after logging in
+- [x] Any user-submitted content should be labelled with the authors username
+- [x] There should be protected routes and unprotected routes that depend on the user having a cookie or not (or what level of access they have).
+- [x] Website content should be stored in a database
 
-**Users**
+### Use Case Diagram
+![use-case-diagram](https://github.com/FACG2/Diary/blob/structure/public/images/use-case-diagram-for-banking-system-UML%20-%20New%20Page.jpeg?raw=true)
 
-| id  |  name | password |
-| --- |:-----:| -------- |
-| 1 | Moath | 35569 |
-| 2 | Abed | 77895 |
-| 3 | Sohad | 22356 |
+## Team:
 
-### Team Checklist:
-
-* Wireframe & Architecture
-* Create schemas
-* Create skeleton files
-* Create database
-* Create back-end server
-* Create front-end client
+- Abdallah
+- Moaz
+- Mahmoud
+- Sohad
