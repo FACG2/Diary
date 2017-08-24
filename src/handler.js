@@ -9,8 +9,7 @@ const {validatePassword} = require('./queries/validation.js');
 
 const home = (req, res) => {
   console.log(req.headers.cookie);
-  if (req.headers.cookie) {
-    console.log(req.headers.cookie);
+  if (req.headers.cookie && cookie.parse(req.headers.cookie).jwt) {
     const token = cookie.parse(req.headers.cookie).jwt;
     verify(token, SECRET, (err, result) => {
       if (err) {
@@ -139,7 +138,7 @@ const login = (req, res) => {
         'loggedin': true
       };
       const cookie = sign(userDetails, SECRET);
-      res.setHeader('Set-Cookie', `jwt=${cookie}; username=${data.username} Max-Age:100000`);
+      res.setHeader('Set-Cookie', `jwt=${cookie}; username=${data.username}; Max-Age=100000;Max-Age=100000`);
       res.writeHead(302, {'content-type': 'application/json',
         'Location': '/diary'});
       res.end(JSON.stringify(list));

@@ -7,12 +7,12 @@ var username = document.cookie.split(';')[1].split('=')[1];
 saveButton.onclick = (e) => {
   e.preventDefault();
   var data = `username=${username}&text=${text.value}&date=${getDate()}`;
-  post('/creatdiary', data, (status, response) => {
+  post('/creatdiary', data, (status, response) => { //eslint-disable-line
     window.location.href = '/diary';
   });
 };
 
-get('/showdiary', (status, response) => {
+get('/showdiary', (status, response) => { //eslint-disable-line
   message.innerText = `What happend with you today, ${username}?`;
   response.forEach((obj) => {
     var diary = document.createElement('p');
