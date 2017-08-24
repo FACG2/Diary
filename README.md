@@ -22,4 +22,12 @@ Make an Application for allowing to write and save your diary.
 - [x] There should be protected routes and unprotected routes that depend on the user having a cookie or not (or what level of access they have).
 - [x] Website content should be stored in a database
 
-![](https://www.lucidchart.com/invitations/accept/411f84cb-b9b6-4136-a53e-d340eae880c3)
+### Use Case Diagram
+![use-case-diagram](https://github.com/FACG2/Diary/blob/structure/public/images/use-case-diagram-for-banking-system-UML%20-%20New%20Page.jpeg?raw=true)
+
+## Team:
+
+- Abdallah
+- Moaz
+- Mahmoud
+- Sohad
